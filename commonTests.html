@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>$.ui.transitionAnimator</title>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="viewport" content="width=device-width; initial-scale=1; minimum-scale=1; maximum-scale=1; user-scalable=0;" />
+<script src="jquery.js"></script>
+<script src="jquery.ui.js"></script>
+<script src="jquery.ui.transitionAnimator.js"></script>
+<script>
+$(function(){
+
+	/* opacity */
+
+	$('#testCase5').each(function(){
+		var topDiv = $(this);
+		var box = $('.box', topDiv);
+		var button = $('button', topDiv);
+		box.transitionAnimator({
+			property: 'opacity'
+		});
+		button.click(function(){
+			box.transitionAnimator('animate',{
+				val: 0,
+				duration: 1000,
+				easing: 'ease-in-out',
+				before: function(){
+					$('#testCase5-1').text('1st animation: before callback fired.');
+				},
+				after: function(){
+					$('#testCase5-2').text('1st animation: after callback fired.');
+				}
+			});
+			box.transitionAnimator('animate',{
+				val: 0.5,
+				duration: 500,
+				easing: 'ease-in-out',
+				before: function(){
+					$('#testCase5-3').text('2nd animation: before callback fired.');
+				},
+				after: function(){
+					$('#testCase5-4').text('2nd animation: after callback fired.');
+				},
+			});
+		});
+	});
+
+	/* min */
+
+	$('#testCase8').each(function(){
+		var topDiv = $(this);
+		var box = $('.box', topDiv);
+		var buttons = $('button', topDiv);
+		var e_run1 = buttons.eq(0);
+		var e_run2 = buttons.eq(1);
+		var e_stop = buttons.eq(2);
+		e_run2.attr('disabled', true);
+		box.transitionAnimator({
+			property: 'opacity'
+		});
+		e_run1.click(function(){
+			e_run1.attr('disabled', true);
+			e_run2.attr('disabled', false);
+			box.transitionAnimator('animate',{
+				val: 0,
+				duration: 1000,
+				easing: 'ease-in'
+			});
+		});
+		e_run2.click(function(){
+			e_run1.attr('disabled', false);
+			e_run2.attr('disabled', true);
+			box.transitionAnimator('animate',{
+				val: 1,
+				duration: 1000,
+				easing: 'ease-in'
+			});
+		});
+		e_stop.click(function(){
+			box.transitionAnimator('stop');
+		});
+	});
+	
+
+	/* min */
+
+	$('#testCase7').each(function(){
+		var topDiv = $(this);
+		var box = $('.box', topDiv);
+		var button = $('button', topDiv);
+		box.transitionAnimator({
+			property: 'opacity'
+		});
+		button.click(function(){
+			box.transitionAnimator('animate',{
+				val: 0.1,
+				duration: 1000,
+				easing: 'ease-in'
+			});
+		});
+	});
+	
+
+	/* min */
+	
+	$('#testCase1').each(function(){
+		var topDiv = $(this);
+		var box = $('.box', topDiv);
+		var button = $('button', topDiv);
+		box.transformAnimator();
+		button.click(function(){
+			box.transformAnimator('animate',{
+				val: 'translate3d(300px,0,0) rotateX(120deg)',
+				duration: 1000,
+				easing: 'ease-in'
+			});
+		});
+	});
+	
+	/* finish */
+
+	$('#testCase2').each(function(){
+		var topDiv = $(this);
+		var box = $('.box', topDiv);
+		var button_run = $('button', topDiv).eq(0);
+		var button_finish = $('button', topDiv).eq(1);
+		box.transformAnimator();
+		button_run.click(function(){
+			box.transformAnimator('animate',{
+				val: 'translate3d(600px,0,0) rotateX(120deg)',
+				duration: 20000,
+				easing: 'linear'
+			});
+		});
+		button_finish.click(function(){
+			box.transformAnimator('finish');
+		});
+	});
+
+	/* pause */
+
+	$('#testCase6').each(function(){
+		var topDiv = $(this);
+		var box = $('.box', topDiv);
+		var button_left = $('button', topDiv).eq(0);
+		var button_right = $('button', topDiv).eq(1);
+		var button_stop = $('button', topDiv).eq(2);
+		box.transformAnimator();
+		button_right.click(function(){
+			box.transformAnimator('animate',{
+				val: 'translate3d(600px,400px,0)',
+				duration: 2000,
+				easing: 'ease-out'
+			});
+		});
+		button_left.click(function(){
+			box.transformAnimator('animate',{
+				val: 'translate3d(0,0,0)',
+				duration: 2000,
+				easing: 'ease-in'
+			});
+		});
+		button_stop.click(function(){
+			box.transformAnimator('stop');
+		});
+	});
+
+	/* option.initVal */
+
+	$('#testCase3').each(function(){
+		var topDiv = $(this);
+		var box = $('.box', topDiv);
+		var button = $('button', topDiv);
+		box.transformAnimator({
+			initVal: 'translate3d(300px,0,0) rotateX(120deg)'
+		});
+		button.click(function(){
+			box.transformAnimator('animate',{
+				val: 'translate3d(0,0,0) rotateX(-120deg) rotateY(120deg)',
+				duration: 1000
+			});
+		});
+	});
+
+	/* chaininig */
+
+	$('#testCase4').each(function(){
+		var topDiv = $(this);
+		var box = $('.box', topDiv);
+		var button = $('button', topDiv);
+		box.transformAnimator();
+		button.click(function(){
+			box.transformAnimator('animate',{
+				val: 'translate3d(300px,0,0) rotateX(120deg)',
+				duration: 1000,
+				easing: 'ease-in'
+			});
+			box.transformAnimator('animate',{
+				val: 'translate3d(100px,0,0)',
+				duration: 500,
+				easing: 'ease-out'
+			});
+			box.transformAnimator('animate',{
+				val: 'translate3d(200px,0,0) rotateX(220deg)',
+				duration: 2000,
+				easing: 'ease-in',
+				callback: function(){
+					alert('finished');
+				}
+			});
+		});
+	});
+	
+});
+</script>
+<style>
+*{
+	margin:0;
+	padding:0;
+}
+body{
+	background:#333;
+	color:#fff;
+	padding:40px;
+	line-height:1.5;
+}
+button{
+	padding:.25em .5em;
+	font-size:1em;
+	display:inline-block;
+	margin:0 0 20px;
+	-webkit-border-radius: 10px;
+	background:#ddd;
+}
+h1{
+	padding:0 0 .5em;
+}
+h2{
+	padding:.5em 0 0;
+	margin:0;
+}
+h3{
+	padding:1em 0 .5em;
+	margin:0;
+}
+
+#availableDetection1,
+#availableDetection2{
+	background:#fff;
+	color:#000;
+	padding:.1em .25em;
+	font-weight:bold;
+	font-size:3em;
+	margin:.2em 0 .5em;
+}
+
+.test{
+	border:1px solid #fff;
+	padding:40px;
+	margin:0 0 20px;
+	-webkit-perspective: 2000;
+	-webkit-transform-style: preserve-3d;
+}
+
+.box{
+	width:100px;
+	height:100px;
+	padding:20px;
+	background:#fff;
+	color:#333;
+	font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+	<h1>$.ui.transitionAnimator / $.ui.transformAnimator</h1>
+
+	<p>Animate elements using -webkit-transition.<br />Currently this suppots only webkit.</p>
+
+	<h2>$.ui.transitionAnimator.isAvailable()</h2>
+
+	<p id="availableDetection1"></p>
+	<script>
+	$(function(){
+		$('#availableDetection1').text(
+			$.ui.transitionAnimator.isAvailable() ?  'true' : 'false'
+		);
+		
+	});
+	</script>
+
+	<h2>$.ui.transitionAnimator</h2>
+
+	<p>Following examples handle 'opacity'.</p>
+
+	<h3>simple</h3>
+
+	<div class="test" id="testCase7">
+		<button>run</button>
+		<div class="box"> hoge </div>
+	</div>
+
+	<h3>callbacks + chain</h3>
+
+	<div class="test" id="testCase5">
+		<button>run</button>
+		<div class="box"> hoge </div>
+		<div id="testCase5-1"></div>
+		<div id="testCase5-2"></div>
+		<div id="testCase5-3"></div>
+		<div id="testCase5-4"></div>
+	</div>
+
+	<h3>.stop()</h3>
+
+	<div class="test" id="testCase8">
+		<button>opacity to 0</button>
+		<button>opacity to 1</button>
+		<button>stop</button>
+		<div class="box"> hoge </div>
+	</div>
+
+	<h2>$.ui.transformAnimator</h2>
+
+	<p>$.ui.transformAnimator extends $.ui.transitionAnimator.<br />Specialized to -webkit-transform.</p>
+
+	<h2>$.ui.transitionAnimator.isAvailable()</h2>
+
+	<p id="availableDetection2"></p>
+	<script>
+	$(function(){
+		$('#availableDetection2').text(
+			$.ui.transformAnimator.isAvailable() ?  'true' : 'false'
+		);
+		
+	});
+	</script>
+	
+	<h3>basic</h3>
+
+	<div class="test" id="testCase1">
+		<button>run</button>
+		<div class="box"> hoge </div>
+	</div>
+
+	<h3>.finish()</h3>
+
+	<div class="test" id="testCase2">
+		<button>run</button>
+		<button>finish</button>
+		<div class="box"> hoge </div>
+	</div>
+
+	<h3>.stop() // only for -webkit-transform 2d</h3>
+
+	<div class="test" id="testCase6">
+		<button>toLeft</button>
+		<button>toRight</button>
+		<button>stop</button>
+		<div class="box"> hoge </div>
+	</div>
+
+	<h3>option.initVal</h3>
+
+	<div class="test" id="testCase3">
+		<button>run</button>
+		<div class="box"> hoge </div>
+	</div>
+
+	<h3>chaining + callback</h3>
+
+	<div class="test" id="testCase4">
+		<button>run</button>
+		<div class="box"> hoge </div>
+	</div>
+
+</body>
+</html>

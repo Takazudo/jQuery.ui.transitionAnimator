@@ -1,0 +1,2 @@
+2010-10-4	Takeshi Takatsudo <takazudo@gmail.com>
+	* updated jQuery UI 1.8.2 -> 1.8.5
